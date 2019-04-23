@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,14 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment mainScreen = new MainScreen();
-
-        transaction.add(R.id.fragment_container, mainScreen);
-        transaction.commit();
+        setMainScreenFragmentWithText("Tap me!!");
 
     }
 
@@ -44,6 +39,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onTextViewClick() {
+        EnterCodeFragment enterCodeFragment = new EnterCodeFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, enterCodeFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
         Log.d(TAG, "onTextViewClick: yoyoyo");
+    }
+
+    public void setMainScreenFragmentWithText(String text) {
+        MainScreen mainScreenFragment = new MainScreen();
+        Bundle args = new Bundle();
+        args.putString("text", text);
+        mainScreenFragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, mainScreenFragment);
+        transaction.commit();
     }
 }
